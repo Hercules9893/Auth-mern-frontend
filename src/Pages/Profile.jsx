@@ -4,26 +4,27 @@ import React, { useEffect, useState } from "react";
 const Profile = () => {
 
 
-  const [user,setuser] = useState({})
-  const [loader,setloader] = useState(true)
-console.log("sdfgh",user)
-  useEffect(()=>{
+  const [user, setuser] = useState({})
+  const [loader, setloader] = useState(true)
+  console.log("sdfgh", user)
+  useEffect(() => {
 
     const token = localStorage.getItem('authtoken');
-    console.log("qwertyu",token);
-  const getdata= async() =>{
-    const response = await axios.get('https://auth-mern-backend-l9zs.onrender.com/profile',{
-      headers: {
-        Authorization: `Bearer ${token}`,
-      }});
+    console.log("qwertyu", token);
+    const getdata = async () => {
+      const response = await axios.get('https://auth-mern-backend-l9zs.onrender.com/profile', {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        }
+      });
 
       setuser(response.data.data)
       setloader(false)
-  }
+    }
 
 
-  getdata()
-  },[])
+    getdata()
+  }, [])
 
   return (
     <div
@@ -96,7 +97,7 @@ console.log("sdfgh",user)
           Edit Profile
         </button>
       </div>}
-      
+
     </div>
   );
 };

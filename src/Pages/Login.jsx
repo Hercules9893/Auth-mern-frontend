@@ -2,35 +2,47 @@ import { useNavigate } from 'react-router-dom';
 import '../App.css';
 import { useState } from 'react';
 import axios from 'axios';
+
 const Login = () => {
-  const [fullname, setfullname] = useState("");
-  const [email,setemail] = useState("")
-  const [mobile,setmobile] = useState("")
-  const [password,setpassword] = useState("")
-      const nvg = useNavigate();
-  
-  
-      const handlesubmit = async() =>{
-  
-        if(email == "" || password == ""){
-          alert("Please fill all the fields");
-        }else{
-  
-          const req = {
-            "email": email,
-            "password": password
-          };
-          const response = await axios.post('https://auth-mern-backend-l9zs.onrender.com/login',req);
-          console.log(response.data);
-  
-          if(response.data.token){
-            localStorage.setItem("authtoken",response.data.token);
-            alert("Login Successfull");
-            nvg('/profile');
-          }
-        }
+  const [email, setemail] = useState("");
+  const [password, setpassword] = useState("");
+  const nvg = useNavigate();
+
+  // Handles form submission
+  const handlesubmit = async () => {
+    // Validate if fields are filled
+    if (email === "" || password === "") {
+      alert("Please fill all the fields");
+      return; // Stop further execution if validation fails
+    }
+
+    const req = {
+      email: email,
+      password: password
+    };
+
+    try {
+      // Making POST request for login
+      const response = await axios.post('https://auth-mern-backend-l9zs.onrender.com/login', req);
+      
+      console.log(response.data);
+
+      // If response has a token, store it and redirect to the profile page
+      if (response.data.token) {
+        localStorage.setItem("authtoken", response.data.token);
+        alert("Login Successful");
+        nvg('/profile');
+      } else {
+        // If no token, show error from the backend
+        alert(response.data.errors || "Login failed, please try again.");
       }
-  
+    } catch (error) {
+      // Handle network or API errors
+      console.error("Login Error:", error);
+      alert("An error occurred, please try again later.");
+    }
+  };
+
   return (
     <div
       className="container align-item-stretch"
@@ -44,14 +56,14 @@ const Login = () => {
             type="email"
             className="form-control mb-3"
             value={email}
-            onChange={(e)=>{setemail(e.target.value)}}
+            onChange={(e) => { setemail(e.target.value); }}
             placeholder="Enter your email"
           />
           <input
             type="password"
-            value={password}
-            onChange={(e)=>{setpassword(e.target.value)}}
             className="form-control mb-3"
+            value={password}
+            onChange={(e) => { setpassword(e.target.value); }}
             placeholder="Enter your password"
           />
           <div className="d-flex justify-content-between align-items-center mb-3">
@@ -63,16 +75,18 @@ const Login = () => {
               }}
             >
               <input type="checkbox" id="rememberMe" />
-              <label
-                htmlFor="rememberMe"
-                style={{ margin: "0px" }}
-                className=""
-              >
+              <label htmlFor="rememberMe" style={{ margin: "0px" }}>
                 Remember me
               </label>
             </div>
           </div>
-          <button type='button' onClick={()=>{handlesubmit()}} className="btn btn-primary w-100 mb-4">Log In</button>
+          <button
+            type="button"
+            onClick={handlesubmit}
+            className="btn btn-primary w-100 mb-4"
+          >
+            Log In
+          </button>
           <hr />
         </div>
       </div>
@@ -81,7 +95,12 @@ const Login = () => {
         <div className="container">
           <h2>Join Us Today!</h2>
           <p>Enter your details and start your adventure with us.</p>
-          <button className="btn btn-success mt-3" onClick={()=>{nvg('/register')}}>Create Account</button>
+          <button
+            className="btn btn-success mt-3"
+            onClick={() => { nvg('/register'); }}
+          >
+            Create Account
+          </button>
         </div>
       </div>
     </div>
