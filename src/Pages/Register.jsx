@@ -30,13 +30,15 @@ const Register = () => {
                 const response = await axios.post('https://auth-mern-backend-l9zs.onrender.com/register', req);
                 console.log("Response from backend: ", response.data);
 
-                if (response.data.token) {
-                    alert("Registration Successful");
+                if (response.data.status === 'success') {
+                    alert("You are successfully registered!");
+                    // Reset form fields
                     setfullname("");
                     setemail("");
                     setmobile("");
                     setpassword("");
-                    nvg('/');
+                    // Navigate to the login page
+                    nvg('/login');
                 } else {
                     alert("Registration failed, please try again.");
                 }
@@ -103,7 +105,7 @@ const Register = () => {
                     <div style={{ height: "100%", display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center" }}>
                         <h2>Join Us Today!</h2>
                         <p>Enter your details and start your adventure with us.</p>
-                        <button className="btn btn-success mt-3" onClick={() => { nvg('/'); }}>Sign In</button>
+                        <button className="btn btn-success mt-3" onClick={() => { nvg('/login'); }}>Already have an account? Sign In</button>
                     </div>
                 </div>
             </div>
