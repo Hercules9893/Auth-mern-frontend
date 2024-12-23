@@ -14,7 +14,15 @@ User Registration: Create an account with email, password, and additional detail
 Login and Authentication: Secure login with JWT-based authentication.
 Profile Management: Access your profile after successful login.
 Responsive Design: Mobile and desktop-friendly interface.
+⚠️ Note
+Due to some internal issues:
+
+You will not receive a notification after registering.
+However, you can sign in immediately after registering, and your data will be successfully stored in the database.
+We are actively working to resolve this issue and appreciate your understanding.
+
 📂 Project Structure
 Backend: API endpoints for user operations (Node.js, Express.js, MongoDB).
 Frontend: React-based UI for user interactions.
 Hosting: Frontend deployed on Netlify and backend hosted on Render.
+
